@@ -5,8 +5,6 @@
     @push('head')
         <link rel="stylesheet" href="{{ asset('plugins/select2/dist/css/select2.min.css') }}">
     @endpush
-
-    
     <div class="container-fluid">
     	<div class="page-header">
             <div class="row align-items-end">
