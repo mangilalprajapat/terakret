@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Customer;
+use App\Models\UserBank;
+use DataTables,Auth;
+use Illuminate\Support\Facades\File;
+
+class UserBankController extends Controller
+{
+   public function __construct(){
+      $this->middleware('auth');
+  }
+
+   public function index() {
+      return view('user_bank.index');
+   }
+   public function getUserBankList(Request $request)
+   {
+      $data  = UserBank::with('customer')->get();
+      return Datatables::of($data)
+      ->addColumn('action', function($data){
+         return '<div class="table-actions">
+                     <a href="'.url('user_bank/view/'.$data->bank_id).'" ><i class="ik ik-eye f-16 mr-15 text-green d-none"></i></a>
+                     <a href="'.url('user_bank/'.$data->bank_id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green d-none"></i></a>
+                     <a href="'.url('user_bank/delete/'.$data->bank_id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                  </div>';
+      })->make(true);
+   }
+   public function create() {
+      echo 'create';
+   }
+   public function store(Request $request) 
+   {
+      echo 'store';
+   }
+   public function show($id) {
+      echo 'show';
+   }
+   public function edit($id) {
+      
+      echo 'edit';
+   }
+   public function update(Request $request) {
+      echo 'Update';
+   }
+   public function delete($id) {
+      $UserBankData = UserBank::where(['bank_id' => $id])->first();
+        if($UserBankData){
+            $userBankImageName = $UserBankData->product_image;
+            $UserBankData->update(['is_deleted' => 1]);
+            $file_path = public_path('user_bank/').$userBankImageName;
+            //You can also check existance of the file in storage.
+            if(File::exists($file_path)) {
+               unlink($file_path); //delete from storage
+            }
+            return redirect('user_bank')->with('success', 'User Bank removed!');
+        }else{
+            return redirect('user_bank')->with('error', 'User Bank not found');
+        }
+    }
+}
