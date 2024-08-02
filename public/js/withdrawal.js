@@ -37,7 +37,10 @@
                 {data:'customer.phone', name: 'customer.phone'},
                 {data:'userbank.account_number', name: 'userbank.account_number'},
                 {data:'redeem_points', name: 'redeem_points'},
-                {data:'reddeem_amounts', name: 'reddeem_amounts'},
+                {data:'reddeem_amounts', name: 'reddeem_amounts', render: function(data, type, row) {
+                   
+                    return '₹'+data;
+                }},
                 { data: 'transaction_id', name: 'transaction_id', render: function(data, type, row) {
                     let statusLabel = '';
                     if (data == null) {

@@ -56,6 +56,28 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <label for="minimum_redeem_point">{{ __('Minimum Redeem Points Withdrawal')}}<span class="text-red">*</span></label>
+                                        <input id="minimum_redeem_point" type="text" class="form-control @error('minimum_redeem_point') is-invalid @enderror" name="minimum_redeem_point" value="{{ clean($app_settings->minimum_redeem_point, 'minimum_redeem_point')}}" placeholder="Enter Minimum Redeem Points Withdrawal">
+                                        <div class="help-block with-errors"></div>
+
+                                        @error('minimum_redeem_point')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="maximum_redeem_point">{{ __('Maximum Redeem Points Withdrawal')}}<span class="text-red">*</span></label>
+                                        <input id="maximum_redeem_point" type="text" class="form-control @error('maximum_redeem_point') is-invalid @enderror" name="maximum_redeem_point" value="{{ clean($app_settings->maximum_redeem_point, 'maximum_redeem_point')}}" placeholder="Enter Maximum Redeem Points Withdrawal">
+                                        <div class="help-block with-errors"></div>
+
+                                        @error('maximum_redeem_point')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                     
                                     <div class="form-group">
                                         <label for="app_version">{{ __('App Version')}}<span class="text-red">*</span></label>

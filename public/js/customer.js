@@ -29,12 +29,19 @@
                 type: "get"
             },
             columns: [
-                /*{data:'serial_no', name: 'serial_no'},*/
+                {data:'profile_image', name: 'profile_image', orderable: false, searchable: false},
+                {data:'referal_code', name: 'referal_code', orderable: true, searchable: true},
                 {data:'username', name: 'username', orderable: true, searchable: true},
+                {data:'gender', name: 'gender', orderable: true, searchable: true},
                 {data:'phone', name: 'phone'},
                 {data:'email', name: 'email'},
+                { data: 'wallet_amount', name: 'wallet_amount', render: function(data, type, row) {                    
+                    return '₹'+data;
+                }},
+                {data:'coupon_points', name: 'coupon_points'},
                 {data:'customertype.customer_type', name: 'customertype.customer_type'},
                 {data:'created_at', name: 'create_at'},
+                {data:'is_blocked', name: 'is_blocked'},
                 {data:'status', name: 'status'},
                 {data:'action', name: 'action'}
             ],

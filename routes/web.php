@@ -19,6 +19,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserBankController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\AppSettingsController;
+use App\Http\Controllers\WalletsController;
+use App\Http\Controllers\StateController;
+use App\Http\Controllers\CityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +78,12 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/customer/{id}', [CustomerController::class,'edit']);
 		Route::post('/customer/update', [CustomerController::class,'update']);
 		Route::get('/customer/delete/{id}', [CustomerController::class,'delete']);
+		Route::get('/customer/password-reset/{id}', [CustomerController::class,'passwordReset']);
+		Route::post('/customer/password-update', [CustomerController::class,'passwordUpdate'])->name('password-update');
+		
+		// Country and State
+		Route::get('/states/{countryId}', [StateController::class, 'getStates']);
+        Route::get('/cities/{stateId}', [CityController::class, 'getCities']);
 
 		// User Withdrawal Manager
 		Route::get('/withdrawal', [WithdrawalController::class,'index']);
@@ -103,6 +112,13 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/user_coupon/{id}', [UserCouponController::class,'edit']);
 		Route::post('/user_coupon/update', [UserCouponController::class,'update']);
 		Route::get('/user_coupon/delete/{id}', [UserCouponController::class,'delete']);
+		
+		// User Coupon Manager
+		Route::get('/wallets', [WalletsController::class,'index']);
+		Route::get('/wallets/get-list', [WalletsController::class,'getWalletsList']);
+		Route::get('/wallets/{id}', [WalletsController::class,'edit']);
+		Route::post('/wallets/update', [WalletsController::class,'update']);
+		Route::get('/wallets/delete/{id}', [WalletsController::class,'delete']);
 
 		// Banner Manager
 		Route::get('/banners', [BannersController::class,'index']);

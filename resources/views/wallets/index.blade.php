@@ -1,5 +1,5 @@
 @extends('layouts.main') 
-@section('title', 'Customer')
+@section('title', 'Wallets')
 @section('content')
     <!-- push external head elements to head -->
     @push('head')
@@ -12,10 +12,10 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="ik ik-users bg-blue"></i>
+                        <i class="fa fa-wallet bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Customers')}}</h5>
-                            <span>{{ __('List of customer')}}</span>
+                            <h5>{{ __('Wallets')}}</h5>
+                            <span>{{ __('List of Wallets')}}</span>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                                 <a href="{{route('dashboard')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">{{ __('Customer')}}</a>
+                                <a href="#">{{ __('Wallets')}}</a>
                             </li>
                         </ol>
                     </nav>
@@ -39,23 +39,15 @@
             <!-- end message area-->
             <div class="col-md-12">
                 <div class="card p-3">
-                    <div class="card-header"><h3>{{ __('Customer')}}</h3></div>
+                    <div class="card-header"><h3>{{ __('Wallets')}}</h3></div>
                     <div class="card-body">
-                        <table id="customer_table" class="table">
+                        <table id="wallets_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Profile')}}</th>
-                                    <th>{{ __('Referal Code')}}</th>
-                                    <th>{{ __('Name')}}</th>
-                                    <th>{{ __('Gender')}}</th>
-                                    <th>{{ __('Moble Number')}}</th>
-                                    <th>{{ __('Email')}}</th>
-                                    <th>{{ __('Wallet Amount')}}</th>
-                                    <th>{{ __('Coupon Points')}}</th>
-                                    <th>{{ __('Customer Type')}}</th>
-                                    <th>{{ __('Registration Date')}}</th>
-                                    <th>{{ __('Blocked')}}</th>
-                                    <th>{{ __('Status')}}</th>
+                                    <th>{{ __('Customer')}}</th>
+                                    <th>{{ __('Withdrawal ID')}}</th>
+                                    <th>{{ __('Amount')}}</th>
+                                    <th>{{ __('Created At')}}</th>
                                     <th>{{ __('Action')}}</th>
                                 </tr>
                             </thead>
@@ -72,16 +64,6 @@
     <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
     <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
     <!--server side users table script-->
-    <script src="{{ asset('js/customer.js') }}"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-    <script>
-        // $(document).ready(function() {
-        //     // When an edit button is clicked
-        //     $('.table-user-thumb').click(function() {
-        //         const itemId = $(this).data('id');
-        //         alert('sdfdsfsdf');
-        //     });
-        // });
-    </script>
+    <script src="{{ asset('js/wallets.js') }}"></script>
     @endpush
 @endsection

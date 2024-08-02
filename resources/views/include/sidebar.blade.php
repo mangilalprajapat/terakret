@@ -56,6 +56,11 @@
                   <div class="nav-item {{ ($segment1 == 'withdrawal') ? 'active open' : '' }}">
                     <a href="{{url('withdrawal')}}"><i class="fas fa-wallet"></i><span>{{ __('Withdrawal')}}</span></a>
                 </div>
+                
+                  <!-- User wallets Manager -->
+                  <div class="nav-item {{ ($segment1 == 'wallets') ? 'active open' : '' }}">
+                    <a href="{{url('wallets')}}"><i class="fas fa-wallet"></i><span>{{ __('wallets')}}</span></a>
+                </div>
 
                 <!-- Coupon Manager -->
                  <div class="nav-item {{ ($segment1 == 'coupon') ? 'active open' : '' }} has-sub">

@@ -35,6 +35,8 @@ class AppSettingsController extends Controller
       $request->validate([
          'point_amount' => 'required|numeric|min:1|max:1000',
          'app_version' => 'required|numeric|min:1.0|',
+         'minimum_redeem_point' => 'required|numeric|min:1|',
+         'maximum_redeem_point' => 'required|numeric|min:1|',
          'maintenance_mode' => 'required',
          'maintenance_mode_message'   => 'nullable|required_if:maintenance_mode,1',
      ]);
@@ -44,6 +46,8 @@ class AppSettingsController extends Controller
          $appSettings->update([
             'point_amount' => $request->point_amount,
             'app_version'    => $request->app_version,
+            'minimum_redeem_point'    => $request->minimum_redeem_point,
+            'maximum_redeem_point'    => $request->maximum_redeem_point,
             'maintenance_mode' => $request->maintenance_mode,
             'maintenance_mode_message' => $request->maintenance_mode_message,
             ]);

@@ -76,7 +76,7 @@
                                     
                                     <div class="form-group">
                                         <label for="email">{{ __('Email')}}</label>
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ clean($customer->email, 'titles')}}" placeholder="Enter email address">
+                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ clean($customer->email, 'email')}}" placeholder="Enter email address">
                                         <div class="help-block with-errors" ></div>
 
                                         @error('email')
@@ -85,12 +85,86 @@
                                             </span>
                                         @enderror
                                     </div>
-                                
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="customer-type">{{ __('Customer Type')}}<span class="text-red">*</span></label>
                                         {!! Form::select('customer_type', $customer_type, $selectedCustomerType,[ 'class'=>'form-control select2', 'placeholder' => 'Select customer type','id'=> 'customer-type', 'required'=> 'required']) !!}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dob">{{ __('Date of Birth')}}</label>
+                                        <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob" value="{{ clean($customer->dob, 'DOB')}}" placeholder="Enter DOB">
+                                        <div class="help-block with-errors" ></div>
+
+                                        @error('dob')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="pincode">{{ __('PinCode')}}</label>
+                                        <input id="pincode" type="text" class="form-control @error('pincode') is-invalid @enderror" name="pincode" value="{{ clean($customer->pincode, 'pincode')}}" placeholder="Enter PinCode">
+                                        <div class="help-block with-errors" ></div>
+
+                                        @error('pincode')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                    <div class="form-group">
+                                        <label for="gender">Gender</label>
+                                        <select class="form-control" id="gender" name="gender">
+                                                <option value="M" {{ $customer->gender == 'M' ? 'selected' : '' }}>Male</option>
+                                                <option value="F" {{ $customer->gender == 'F' ? 'selected' : '' }}>Female</option>
+                                        </select>
+                                        @error('gender')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="country_id">Country</label>
+                                        <select id="country_id" name="country" class="form-control">
+                                            @foreach($countries as $country)
+                                                <option value="{{ $country->id }}" {{ $country->id == $cities->state->country_id ? 'selected' : '' }}>
+                                                    {{ $country->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('country_id')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="state_id">State</label>
+                                        <select id="state_id" name="state" class="form-control">
+                                            @foreach($states as $state)
+                                                <option value="{{ $state->id }}" {{ $state->id == $cities->state_id ? 'selected' : '' }}>
+                                                    {{ $state->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('state_id')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <select id="city" name="city" class="form-control">
+                                                <option value="{{ $cities->id }}" {{ $cities->id == $cities->id ? 'selected' : '' }}>
+                                                    {{ $cities->name }}
+                                                </option>
+                                        </select>
+                                        @error('city')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     
                                     <div class="form-group">
@@ -126,5 +200,43 @@
         <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
         <!--get role wise permissiom ajax script-->
         <script src="{{ asset('js/get-role.js') }}"></script>
+        <script>
+        $(document).ready(function() {
+            //$('#country').change(function() {
+                // var countryId = 101;//$(this).val();
+                // $('#state').empty().append('<option value="">Select State</option>').prop('disabled', !countryId);
+                // $('#city').empty().append('<option value="">Select City</option>').prop('disabled', true);
+
+                // if (countryId) {
+                //     $.ajax({
+                //         url: `/states/${countryId}`,
+                //         method: 'GET',
+                //         success: function(data) {
+                //             $.each(data, function(index, state) {
+                //                 $('#state').append(`<option value="${state.id}">${state.name}</option>`);
+                //             });
+                //         }
+                //     });
+                // }
+           // });
+
+            $('#state_id').change(function() {
+                var stateId = $(this).val();
+                $('#city').empty().append('<option value="">Select City</option>').prop('disabled', !stateId);
+
+                if (stateId) {
+                    $.ajax({
+                        url: `/cities/${stateId}`,
+                        method: 'GET',
+                        success: function(data) {
+                            $.each(data, function(index, city) {
+                                $('#city').append(`<option value="${city.id}">${city.name}</option>`);
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        </script>
     @endpush
 @endsection

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Wallets extends Model
+class States extends Model
 {
     use HasFactory;
      /**
@@ -13,18 +13,19 @@ class Wallets extends Model
      *
      * @var string
      */
-    protected $table = 'wallets';
+    protected $table = 'states';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $primaryKey = 'wallet_id';
+    protected $primaryKey = 'id';
     protected $guarded = [];
     public $timestamps = false;
-    public function customer()
+
+    public function countris()
     {
-        return $this->hasOne('App\Models\Customer', 'customer_id', 'customer_id');
+        return $this->hasOne('App\Models\Countries', 'id', 'country_id');
     }
 }
