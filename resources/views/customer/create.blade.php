@@ -50,7 +50,7 @@
 
                                     <div class="form-group">
                                         <label for="name">{{ __('Username')}}<span class="text-red">*</span></label>
-                                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="" placeholder="Enter user name" required>
+                                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Enter user name">
                                         <div class="help-block with-errors"></div>
 
                                         @error('name')
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="mobile">{{ __('Mobile Number')}}<span class="text-red">*</span></label>
-                                        <input id="mobile" type="mobile" class="form-control @error('mobile') is-invalid @enderror" name="phone" value="{{ old('mobile') }}" placeholder="Enter mobile number" required>
+                                        <input id="mobile" type="mobile" class="form-control @error('mobile') is-invalid @enderror" name="phone" value="{{ old('phone') }}" placeholder="Enter mobile number">
                                         <div class="help-block with-errors" ></div>
 
                                         @error('mobile')
@@ -85,7 +85,7 @@
                                     
                                     <div class="form-group">
                                         <label for="customer-type">{{ __('Customer Type')}}<span class="text-red">*</span></label>
-                                        {!! Form::select('customer_type', $customer_type, null,[ 'class'=>'form-control select2', 'placeholder' => 'Select customer type','id'=> 'customer-type', 'required'=> 'required']) !!}
+                                        {!! Form::select('customer_type', $customer_type, old('customer_type'), ['class' => 'form-control select2','placeholder' => 'Select customer type','id' => 'customer-type']) !!}
                                     </div>
                                     
                                     <div class="form-group">
@@ -117,7 +117,7 @@
 
                                     <div class="form-group">
                                         <label for="gender">Gender</label>
-                                        <select class="form-control" id="gender" name="gender">
+                                        <select class="form-control @error('gender') is-invalid @enderror" id="gender" name="gender">
                                                 <option value="M">Male</option>
                                                 <option value="F">Female</option>
                                         </select>

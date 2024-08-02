@@ -128,13 +128,19 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="country_id">Country</label>
-                                        <select id="country_id" name="country" class="form-control">
-                                            @foreach($countries as $country)
-                                                <option value="{{ $country->id }}" {{ $country->id == $cities->state->country_id ? 'selected' : '' }}>
-                                                    {{ $country->name }}
-                                                </option>
-                                            @endforeach
+                                        <label for="country">Country</label>
+                                        <select id="country" name="country" class="form-control">
+                                                @foreach($countries as $country)
+                                                @if(!empty($cities->state))  
+                                                    <option value="{{ $country->id }}" {{ $country->id == $cities->state->country_id ? 'selected' : '' }}>
+                                                        {{ $country->name }}
+                                                    </option>
+                                                @else
+                                                <option value=""> Select Country</option>
+                                                <option value="{{ $country->id }}"> {{ $country->name }}</option>
+                                                @endif
+                                                @endforeach
+                                            
                                         </select>
                                         @error('country_id')
                                             <div class="text-danger">{{ $message }}</div>
@@ -144,11 +150,15 @@
                                     <div class="form-group">
                                         <label for="state_id">State</label>
                                         <select id="state_id" name="state" class="form-control">
+                                            @if(!empty($states))
                                             @foreach($states as $state)
                                                 <option value="{{ $state->id }}" {{ $state->id == $cities->state_id ? 'selected' : '' }}>
                                                     {{ $state->name }}
                                                 </option>
                                             @endforeach
+                                            @else
+                                            <option value="">Select State</option>
+                                            @endif
                                         </select>
                                         @error('state_id')
                                             <div class="text-danger">{{ $message }}</div>
@@ -158,9 +168,11 @@
                                     <div class="form-group">
                                         <label for="city">City</label>
                                         <select id="city" name="city" class="form-control">
+                                               @if(!empty($cities))
                                                 <option value="{{ $cities->id }}" {{ $cities->id == $cities->id ? 'selected' : '' }}>
                                                     {{ $cities->name }}
                                                 </option>
+                                                @endif
                                         </select>
                                         @error('city')
                                             <div class="text-danger">{{ $message }}</div>
@@ -202,23 +214,23 @@
         <script src="{{ asset('js/get-role.js') }}"></script>
         <script>
         $(document).ready(function() {
-            //$('#country').change(function() {
-                // var countryId = 101;//$(this).val();
-                // $('#state').empty().append('<option value="">Select State</option>').prop('disabled', !countryId);
-                // $('#city').empty().append('<option value="">Select City</option>').prop('disabled', true);
+            $('#country').change(function() {
+                var countryId = 101;//$(this).val();
+                $('#state').empty().append('<option value="">Select State</option>').prop('disabled', !countryId);
+                $('#city').empty().append('<option value="">Select City</option>').prop('disabled', true);
 
-                // if (countryId) {
-                //     $.ajax({
-                //         url: `/states/${countryId}`,
-                //         method: 'GET',
-                //         success: function(data) {
-                //             $.each(data, function(index, state) {
-                //                 $('#state').append(`<option value="${state.id}">${state.name}</option>`);
-                //             });
-                //         }
-                //     });
-                // }
-           // });
+                if (countryId) {
+                    $.ajax({
+                        url: `/states/${countryId}`,
+                        method: 'GET',
+                        success: function(data) {
+                            $.each(data, function(index, state) {
+                                $('#state_id').append(`<option value="${state.id}">${state.name}</option>`);
+                            });
+                        }
+                    });
+                }
+            });
 
             $('#state_id').change(function() {
                 var stateId = $(this).val();

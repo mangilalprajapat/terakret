@@ -19,13 +19,13 @@ class ProductController extends Controller
    }
    public function getProductList(Request $request)
    {
-      $data  = Products::with('productcategory')->get();
+      $data  = Products::with('productcategory')->where(['is_deleted' =>0])->get();
       return Datatables::of($data)
       ->addColumn('action', function($data){
          return '<div class="table-actions">
-                     <a href="'.url('product/view/'.$data->product_id).'" ><i class="ik ik-eye f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('product/'.$data->product_id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
-                     <a href="'.url('product/delete/'.$data->product_id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                     <a href="'.url('product/view/'.$data->product_id).'" ><i class="ik ik-eye f-20 mr-15 text-green d-none"></i></a>
+                     <a href="'.url('product/'.$data->product_id).'" ><i class="ik ik-edit-2 f-20 mr-15 text-green"></i></a>
+                     <a href="#" class="delete-item" data-id="'.$data->product_id.'"><i class="ik ik-trash-2 f-20 text-red"></i></a>
                   </div>';
       })->make(true);
    }
@@ -147,9 +147,9 @@ class ProductController extends Controller
             if(File::exists($file_path)) {
                unlink($file_path); //delete from storage
             }
-            return redirect('product')->with('success', 'Product removed!');
-        }else{
-            return redirect('product')->with('error', 'Product not found');
-        }
+            return response()->json(['success' => true]);
+         }else{
+           return response()->json(['success' => false], 404);
+         }
     }
 }

@@ -23,9 +23,9 @@ class CouponController extends Controller
       return Datatables::of($data)
       ->addColumn('action', function($data){
          return '<div class="table-actions">
-                     <a href="'.url('coupon/view/'.$data->coupon_id).'" ><i class="ik ik-eye f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('coupon/'.$data->coupon_id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
-                     <a href="'.url('coupon/delete/'.$data->coupon_id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                     <a href="'.url('coupon/view/'.$data->coupon_id).'" ><i class="ik ik-eye f-20 mr-15 text-green d-none"></i></a>
+                     <a href="'.url('coupon/'.$data->coupon_id).'" ><i class="ik ik-edit-2 f-20 mr-15 text-green"></i></a>
+                     <a href="#" class="delete-item" data-id="'.$data->coupon_id.'"><i class="ik ik-trash-2 f-20 text-red"></i></a>
                   </div>';
       })->make(true);
    }
@@ -111,9 +111,9 @@ class CouponController extends Controller
       $CouponData = Coupon::where(['coupon_id' => $id, 'is_deleted' => false])->first();
         if($CouponData){
             $CouponData->update(['is_deleted' => 1]);
-            return redirect('coupon')->with('success', 'Coupon deleted successfully.');
-        }else{
-            return redirect('coupon')->with('error', 'Coupon not found');
-        }
+            return response()->json(['success' => true]);
+         }else{
+           return response()->json(['success' => false], 404);
+         }
     }
 }

@@ -78,8 +78,10 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/customer/{id}', [CustomerController::class,'edit']);
 		Route::post('/customer/update', [CustomerController::class,'update']);
 		Route::get('/customer/delete/{id}', [CustomerController::class,'delete']);
+		Route::delete('/delete/{id}', [CustomerController::class, 'delete']);
 		Route::get('/customer/password-reset/{id}', [CustomerController::class,'passwordReset']);
 		Route::post('/customer/password-update', [CustomerController::class,'passwordUpdate'])->name('password-update');
+		Route::post('/customer/block-unblock', [CustomerController::class,'toggleBlockStatus'])->name('block-unblock');
 		
 		// Country and State
 		Route::get('/states/{countryId}', [StateController::class, 'getStates']);
@@ -94,6 +96,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/withdrawal/view/{id}', [WithdrawalController::class,'show']);
 		Route::post('/withdrawal/update', [WithdrawalController::class,'update']);
 		Route::get('/withdrawal/delete/{id}', [WithdrawalController::class,'delete']);
+		Route::delete('/delete/{id}', [WithdrawalController::class, 'delete']);
 		Route::post('/withdrawal/statusupdate', [WithdrawalController::class,'StatusUpdate']);
 		
 		// Coupon Manager
@@ -105,6 +108,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/coupon/view/{id}', [CouponController::class,'show']);
 		Route::post('/coupon/update', [CouponController::class,'update']);
 		Route::get('/coupon/delete/{id}', [CouponController::class,'delete']);
+		Route::delete('/coupon/delete/{id}', [CouponController::class,'delete']);
 
 		// User Coupon Manager
 		Route::get('/user_coupon', [UserCouponController::class,'index']);
@@ -112,6 +116,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/user_coupon/{id}', [UserCouponController::class,'edit']);
 		Route::post('/user_coupon/update', [UserCouponController::class,'update']);
 		Route::get('/user_coupon/delete/{id}', [UserCouponController::class,'delete']);
+		Route::delete('/user_coupon/delete/{id}', [UserCouponController::class,'delete']);
 		
 		// User Coupon Manager
 		Route::get('/wallets', [WalletsController::class,'index']);
@@ -119,6 +124,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/wallets/{id}', [WalletsController::class,'edit']);
 		Route::post('/wallets/update', [WalletsController::class,'update']);
 		Route::get('/wallets/delete/{id}', [WalletsController::class,'delete']);
+		Route::delete('/delete/{id}', [WalletsController::class, 'delete']);
 
 		// Banner Manager
 		Route::get('/banners', [BannersController::class,'index']);
@@ -128,6 +134,8 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/banners/{id}', [BannersController::class,'edit']);
 		Route::post('/banners/update', [BannersController::class,'update']);
 		Route::get('/banners/delete/{id}', [BannersController::class,'delete']);
+		Route::delete('/delete/{id}', [BannersController::class, 'delete']);
+
 
 		// Product Manager
 		Route::get('/product', [ProductController::class,'index']);
@@ -137,6 +145,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/product/{id}', [ProductController::class,'edit']);
 		Route::post('/product/update', [ProductController::class,'update']);
 		Route::get('/product/delete/{id}', [ProductController::class,'delete']);
+		Route::delete('/product/delete/{id}', [ProductController::class,'delete']);
 		
 		// User Bank Manager
 		Route::get('/user_bank', [UserBankController::class,'index']);
@@ -144,6 +153,7 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::get('/user_bank/{id}', [UserBankController::class,'edit']);
 		Route::post('/user_bank/update', [UserBankController::class,'update']);
 		Route::get('/user_bank/delete/{id}', [UserBankController::class,'delete']);
+		Route::delete('/delete/{id}', [UserBankController::class,'delete']);
 		
 		// Contact Us Manager
 		Route::get('/contact_us', [ContactUsController::class,'index']);

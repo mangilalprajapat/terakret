@@ -22,9 +22,9 @@ class BannersController extends Controller
       return Datatables::of($data)
       ->addColumn('action', function($data){
          return '<div class="table-actions">
-                     <a href="'.url('banners/view/'.$data->banner_id).'" ><i class="ik ik-eye f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('banners/'.$data->banner_id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
-                     <a href="'.url('banners/delete/'.$data->banner_id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                     <a href="'.url('banners/view/'.$data->banner_id).'" ><i class="ik ik-eye f-20 mr-15 text-green d-none"></i></a>
+                     <a href="'.url('banners/'.$data->banner_id).'" ><i class="ik ik-edit-2 f-20 mr-15 text-green"></i></a>
+                     <a href="#" class="delete-item" data-id="'.$data->banner_id.'"><i class="ik ik-trash-2 f-20 text-red"></i></a>
                   </div>';
       })->make(true);
    }
@@ -132,9 +132,9 @@ class BannersController extends Controller
             if(File::exists($file_path)) {
                unlink($file_path); //delete from storage
             }
-            return redirect('banners')->with('success', 'Banner removed!');
-        }else{
-            return redirect('banners')->with('error', 'Banners not found');
-        }
+            return response()->json(['success' => true]);
+         }else{
+           return response()->json(['success' => false], 404);
+         }
     }
 }

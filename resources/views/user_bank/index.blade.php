@@ -2,6 +2,8 @@
 @section('title', 'User Bank')
 @section('content')
     <!-- push external head elements to head -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     @push('head')
         <link rel="stylesheet" href="{{ asset('plugins/DataTables/datatables.min.css') }}">
     @endpush
@@ -70,5 +72,61 @@
     <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
     <!--server side users table script-->
     <script src="{{ asset('js/user_bank.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.delete-item', function() {
+                var $this = $(this);
+                var itemId = $this.data('id');
+
+                // Show confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to delete this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with AJAX request
+                        $.ajax({
+                            url: 'user_bank/delete/' + itemId, // Adjust the URL to match your route
+                            method: 'GET',
+                            data: {
+                                _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    // Remove the user bank from the DOM
+                                    $this.closest('tr').remove();
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your user bank has been deleted.',
+                                        'success'
+                                    );
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'Failed to delete the user bank.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
     @endpush
 @endsection

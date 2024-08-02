@@ -25,13 +25,13 @@ class WithdrawalController extends Controller
    }
    public function getWithdrawalList(Request $request)
    {
-      $data  = Withdrawal::with('customer','userbank')->orderBy('created_at', 'desc')->get();
+      $data  = Withdrawal::with('customer','userbank')->where(['is_deleted' => 0])->orderBy('created_at', 'desc')->get();
       return Datatables::of($data)
       ->addColumn('action', function($data){
          return '<div class="table-actions">
-                     <a href="'.url('withdrawal/view/'.$data->withdrawal_id).'" ><i class="ik ik-eye f-16 mr-15 text-green"></i></a>
-                     <a href="'.url('withdrawal/'.$data->withdrawal_id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('withdrawal/delete/'.$data->withdrawal_id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                     <a href="'.url('withdrawal/view/'.$data->withdrawal_id).'" ><i class="ik ik-eye f-20 mr-15 text-green"></i></a>
+                     <a href="'.url('withdrawal/'.$data->withdrawal_id).'" ><i class="ik ik-edit-2 f-20 mr-15 text-green d-none"></i></a>
+                     <a href="#" class="delete-item" data-id="'.$data->withdrawal_id.'"><i class="ik ik-trash-2 f-20 text-red"></i></a>
                   </div>';
       })->make(true);
    }
@@ -121,10 +121,9 @@ class WithdrawalController extends Controller
       $WithdrawalData = Withdrawal::where(['withdrawal_id' => $id])->first();
         if($WithdrawalData){
             $WithdrawalData->update(['is_deleted' => 1]);
-            
-            return redirect('withdrawal')->with('success', 'Withdrawal request removed!');
-        }else{
-            return redirect('withdrawal')->with('error', 'Withdrawal not found');
-        }
+            return response()->json(['success' => true]);
+         }else{
+           return response()->json(['success' => false], 404);
+         }
     }
 }

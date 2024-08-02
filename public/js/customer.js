@@ -32,7 +32,7 @@
                 {data:'profile_image', name: 'profile_image', orderable: false, searchable: false},
                 {data:'referal_code', name: 'referal_code', orderable: true, searchable: true},
                 {data:'username', name: 'username', orderable: true, searchable: true},
-                {data:'gender', name: 'gender', orderable: true, searchable: true},
+                // {data:'gender', name: 'gender', orderable: true, searchable: true},
                 {data:'phone', name: 'phone'},
                 {data:'email', name: 'email'},
                 { data: 'wallet_amount', name: 'wallet_amount', render: function(data, type, row) {                    

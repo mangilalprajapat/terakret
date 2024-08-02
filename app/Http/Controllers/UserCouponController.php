@@ -36,9 +36,9 @@ class UserCouponController extends Controller
      })
       ->addColumn('action', function($data){
          return '<div class="table-actions">
-                     <a href="'.url('user_coupon/view/'.$data->user_coupon_id).'" ><i class="ik ik-eye f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('user_coupon/'.$data->user_coupon_id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('user_coupon/delete/'.$data->user_coupon_id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                     <a href="'.url('user_coupon/view/'.$data->user_coupon_id).'" ><i class="ik ik-eye f-20 mr-15 text-green d-none"></i></a>
+                     <a href="'.url('user_coupon/'.$data->user_coupon_id).'" ><i class="ik ik-edit-2 f-20 mr-15 text-green d-none"></i></a>
+                     <a href="#" class="delete-item" data-id="'.$data->user_coupon_id.'"><i class="ik ik-trash-2 f-20 text-red"></i></a>
                   </div>';
       })->make(true);
    }
@@ -61,9 +61,9 @@ class UserCouponController extends Controller
       $UserCouponData = UserCoupon::where(['user_coupon_id' => $id, 'is_deleted' => false])->first();
         if($UserCouponData){
             $UserCouponData->update(['is_deleted' => 1]);
-            return redirect('user_coupon')->with('success', 'User Coupon deleted successfully.');
-        }else{
-            return redirect('user_coupon')->with('error', 'User Coupon not found');
-        }
+            return response()->json(['success' => true]);
+         }else{
+           return response()->json(['success' => false], 404);
+         }
    }
 }

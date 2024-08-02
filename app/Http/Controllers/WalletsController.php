@@ -24,9 +24,9 @@ class WalletsController extends Controller
       return Datatables::of($data)
       ->addColumn('action', function($data){
          return '<div class="table-actions">
-                     <a href="'.url('wallets/view/'.$data->wallet_id).'" ><i class="ik ik-eye f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('wallets/'.$data->wallet_id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green d-none"></i></a>
-                     <a href="'.url('wallets/delete/'.$data->wallet_id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                     <a href="'.url('wallets/view/'.$data->wallet_id).'" ><i class="ik ik-eye f-20 mr-15 text-green d-none"></i></a>
+                     <a href="'.url('wallets/'.$data->wallet_id).'" ><i class="ik ik-edit-2 f-20 mr-15 text-green d-none"></i></a>
+                     <a href="#" class="delete-item" data-id="'.$data->wallet_id.'"><i class="ik ik-trash-2 f-20 text-red"></i></a>
                   </div>';
       })->make(true);
    }
@@ -49,10 +49,10 @@ class WalletsController extends Controller
       $WalletsData = Wallets::where(['wallet_id' => $id, 'is_deleted' => false])->first();
         if($WalletsData){
             $WalletsData->update(['is_deleted' => 1]);
-            return redirect('wallets')->with('success', 'Wallet amount deleted successfully.');
-        }else{
-            return redirect('wallets')->with('error', 'Wallet amount not found');
-        }
+            return response()->json(['success' => true]);
+         }else{
+           return response()->json(['success' => false], 404);
+         }
    }
 }
 
