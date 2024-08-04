@@ -19,9 +19,13 @@ use App\Http\Controllers\Api\CustomerController;
 |
 */
 
-Route::post('register', [CustomerController::class,'register']);
+Route::post('register', [AuthController::class,'register']);
 
 Route::post('login', [AuthController::class,'login']);
+
+Route::post('social-login', [AuthController::class,'socialLogin']);
+
+Route::post('forgot-password', [AuthController::class,'forgotPassword']);
 
 Route::group(['middleware' => 'auth:api'], function(){
 	

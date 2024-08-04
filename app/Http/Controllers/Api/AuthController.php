@@ -7,73 +7,201 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Models\Customer;
 use Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Password;
+use Laravel\Passport\TokenRepository;
+
 
 class AuthController extends Controller
 {
 
+    protected $tokenRepository;
+
+    public function __construct(TokenRepository $tokenRepository)
+    {
+        $this->tokenRepository = $tokenRepository;
+    }
+    
     public function register(Request $request)
     {
-        $validData = $request->validate([
-            'email' => 'required|email|string',
-            'password' => 'required|string'
+        $deviceType = request()->input('device_type', 'Android');
+        $validator = Validator::make($request->all(), [
+            'username'   => 'required|string|max:20',
+            'phone' => [
+               'required',
+               'digits:10',
+               Rule::unique('customers')
+                   ->where(function ($query) {
+                       $query->where('is_deleted', false);
+                   }),
+           ],
+            'email' => [
+               'required',
+               'email',
+               'max:255',
+               Rule::unique('customers')
+                   ->where(function ($query) {
+                       $query->where('is_deleted', false);
+                   }),
+           ],
+            'customer_type'=> 'required',
+            'confirm_password'=> 'required',
+            'password'  => 'required|min:6|required_with:confirm_password|same:confirm_password',
+
         ]);
-
-
-        if(!Auth::attempt($validData)){
-            return response([
-                'message' => 'Invalid credentials!',
-                'success' => 0
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first(),
+                'status' => 400,
             ]);
         }
-        
-        $accessToken = Auth::user()->createToken('authToken')->accessToken;
-
-        return  response([
-                    'user' => Auth::user(), 
-                    'access_token' => $accessToken,
-                    'success' => 1
-                ]);
+        try
+        {
+            // store customer information
+            $customerId = Customer::insertGetId([
+                  'username'     => $request->username,
+                  'email'        => $request->email,
+                  'phone_code'   => '+91',
+                  'phone'        => $request->phone,
+                  'customer_type'=> $request->customer_type,
+                  'referal_code' => Str::random(10),
+                  'password'     => Hash::make($request->password),
+                  'api_token'    => Str::random(60),
+                  'status'       => 'Active',
+                  'device_type'  => $deviceType,
+               ]);
+            $customerData = Customer::where(['customer_id' => $customerId, 'is_deleted' => false])->first();
+            return response()->json([
+                'message' => "Customer registered successfully",
+                'status' => 200,
+                'data' => $customerData
+            ]);
+        }catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return response()->json([
+                'message' => $bug,
+                'status' => 400,
+            ]);
+        }
     }
 
     public function login(Request $request)
     {
-        $validData = $request->validate([
-            'email' => 'required|email|string',
-            'password' => 'required|string'
+        // $accessToken = Auth::user()->createToken('authToken')->accessToken;
+        // echo "<pre>";print_r($accessToken);die;
+        $validator = Validator::make($request->all(), [
+            'phone'     => 'required|digits:10',
+            'password'  => 'required',
         ]);
-
-
-        if(!Auth::attempt($validData)){
-            return response([
-                'message' => 'Invalid credentials!',
-                'success' => 0
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first(),
+                'status' => 400,
             ]);
         }
-        
-        $accessToken = Auth::user()->createToken('authToken')->accessToken;
-
-        return  response([
-                    'user' => Auth::user(), 
-                    'access_token' => $accessToken,
-                    'success' => 1
-                ]);
+        try
+        {
+            $credentials = $request->only('phone', 'password');
+            // if (Auth::guard('api')->attempt($credentials)) {
+            //     $customer = Auth::guard('api')->user();
+            // } 
+            $customer = Customer::where(['phone' => $credentials['phone'], 'is_deleted' => false])->first();
+            if($customer){
+                if ($customer && Hash::check($credentials['password'], $customer->password)) {
+                
+                    if($customer->is_blocked){
+                        return response()->json([
+                            'message' => "Account has been blocked.",
+                            'status' => 400,
+                        ]);
+                    }
+                    $firstLoging = 'first_loggedin';
+                    if($customer->is_first_login == 'first_loggedin'){
+                        $firstLoging = 'done';
+                    }
+                    $customer->update([
+                        'api_token'     => Str::random(60),
+                        'is_logging'    => 1,
+                        'is_first_login'=> $firstLoging,
+                        'last_login_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                     ]);
+                    return response()->json([
+                        'message' => "Customer login successfully",
+                        'status' => 200,
+                        'data' => $customer
+                    ]);
+                } else {
+                    return response()->json([
+                        'status' => 400,
+                        'message' => 'Incorrect phone and password!!'
+                    ]); // Forbidden
+                }
+            } else {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Incorrect phone and password!!'
+                ]); // Forbidden
+            }            
+        }catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return response()->json([
+                'message' => $bug,
+                'status' => 400,
+            ]);
+        }
     }
 
+    public function socialLogin(Request $request){
+        
+        return response()->json([
+            'message' => "Customer social login successfully",
+            'status' => 200,
+            // 'data' => $customer
+        ]);
+    }
+    
+    public function forgotPassword(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
 
-
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()->first(),
+                'status' => 400,
+            ]);
+        }
+        $response = Password::sendResetLink($request->only('email'));
+        return $response === Password::RESET_LINK_SENT
+            ? response()->json(['message' => 'Password reset link sent.','status' => 200])
+            : response()->json(['message' => 'Unable to send reset link.', 'status' => 400]);
+    }
+    
     public function profile(Request $request)
     {
-        $user = Auth::user();
-        $roles = $user->getRoleNames();
-        $permission = $user->getAllPermissions();
-        return response([
-                    'user' => $user,
-                    'success' => 1
-                ]);
+        $customer = Auth::user();
+        // $roles = $user->getRoleNames();
+        // $permission = $user->getAllPermissions();
+        if(!empty($customer)){
+            return response([
+                'status' => 200,
+                'message' => 'Get Customer profile',
+                'data' => $customer
+            ]);
+        } else {
+            return response([
+                'status' => 400,
+                'message' => 'Customer profile not found!!',
+            ]);
+        }
     }
-
-
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -100,48 +228,106 @@ class AuthController extends Controller
                         'status'  => 0
                     ]);
     }
-
-
     public function updateProfile(Request $request)
     {
-        $validData = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email'
-        ]);
+        try {
+            $customerProfile = Auth::user();
+            if(!empty($customerProfile)){
+                // echo "<pre>";print_r($customerProfile);die;
+                $validator = Validator::make($request->all(), [
+                    'username'   => 'required|string|max:20',
+                    'email' => [
+                    'required',
+                    'email',
+                    'max:255',
+                    Rule::unique('customers')
+                        ->ignore($customerProfile->customer_id,'customer_id')
+                        ->where(function ($query) {
+                            $query->where('is_deleted', false);
+                        }),
+                    ],
+                    'phone' => [
+                    'required',
+                    'digits:10',
+                    Rule::unique('customers')
+                        ->ignore($customerProfile->customer_id,'customer_id')
+                        ->where(function ($query) {
+                            $query->where('is_deleted', false);
+                        }),
+                    ],
+                    'gender'        => 'nullable|in:M,F',
+                    'dob' => [
+                        'nullable',
+                        'date',
+                        function ($attribute, $value, $fail) {
+                            $dob = \Carbon\Carbon::parse($value);
+                            $minimumDate = \Carbon\Carbon::now()->subYears(10);
+                            if ($dob->greaterThan($minimumDate)) {
+                                $fail('The  Date of birth must be at least 10 years ago.');
+                            }
+                        },
+                    ],
+                    'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'country'       => 'nullable',
+                    'state'         => 'nullable',
+                    'city'          => 'nullable',
+                    'pincode'       => 'nullable',
+                ]);
+                
+                if ($validator->fails()) {
+                    return response()->json([
+                        'message' => $validator->errors()->first(),
+                        'status' => 400,
+                    ]);
+                }
+                $customerProfile->dob = $request->input('dob');
+                if ($request->hasFile('profile_image')) {
+                    // Delete old image if exists
+                    if ($user->profile_image && Storage::exists($user->profile_image)) {
+                        Storage::delete($user->profile_image);
+                    }
+        
+                    // Store new image
+                    $imagePath = $request->file('profile_image')->store('profile_images', 'public');
+                    $customerProfile->profile_image = $imagePath;
+                }
 
-        $user = Auth::user();
-        // check unique email except this user
-        if(isset($request->email)){
-            $check = User::where('email', $request->email)
-                     ->where('id', '!=', $user->id)
-                     ->count();
-            if($check > 0){
+                // $customerProfile->save();
                 return response([
-                    'message' => 'The email address is already used!',
-                    'success' => 0
+                    'status'  => 200,
+                    'message' => 'Profile updated successfully',
                 ]);
             }
+        } catch (\Throwable $th) {
+            return response([
+                'message' => 'Somthing went wrong, Please try again!',
+                'status'  => 400
+            ]);
         }
-
-        $user->update($validData);
-
-        
-        return response([
-                    'message' => 'Profile updated successfully!',
-                    'status'  => 1
-                ]);
     }
-
-
     public function logout(Request $request)
     {
-        $user = Auth::user()->token();
-        $user->revoke();
-
-        return response([
+        try {
+            $accessToken = Auth::user();
+            if (!empty($accessToken)) {
+                $accessToken->update(['api_token' => true]);
+                return response([
                     'message' => 'Logged out succesfully!',
-                    'status'  => 0
+                    'status'  => 200
                 ]);
+            } else {
+                return response([
+                    'message' => 'Customer not found!!',
+                    'status'  => 400
+                ]);
+            }
+            
+        } catch (\Throwable $th) {
+            return response([
+                'message' => 'Somthing went wrong, Please try again!',
+                'status'  => 400
+            ]);
+        }
     }
 
 }

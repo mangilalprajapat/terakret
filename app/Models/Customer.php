@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
-class Customer extends Model
+
+class Customer extends Authenticatable
 {
+    use HasApiTokens;
+
     use HasFactory;
      /**
      * The table associated with the model.

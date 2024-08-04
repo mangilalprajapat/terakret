@@ -33,7 +33,8 @@ use App\Http\Controllers\CityController;
 | contains the "web" middleware group. Now create something great!
 |
 */ 
-Route::get('/', function () { return view('home'); });
+// Route::get('/', function () { return view('home'); });
+Route::get('/', [LoginController::class,'showLoginForm'])->name('login');
 
 
 Route::get('login', [LoginController::class,'showLoginForm'])->name('login');
