@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
-use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\CustomerBanksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +35,10 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('change-password', [AuthController::class,'changePassword']);
 	Route::post('update-profile', [AuthController::class,'updateProfile']);
 	
+	Route::post('add-bannk', [CustomerBanksController::class,'addBank']);
+	Route::get('bank-list', [CustomerBanksController::class,'bankList']);
+	Route::post('update-bank', [CustomerBanksController::class,'updateBank']);
+	Route::post('delete-bank', [CustomerBanksController::class,'deleteBank']);
 
 	
 	//only those have manage_user permission will get access

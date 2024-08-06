@@ -29,16 +29,21 @@
                 type: "get"
             },
             columns: [
-                {data:'account_number', name: 'account_number', orderable: true, searchable: true},
                 { 
                     data: 'document', 
                     name: 'document',
                     render: function(data, type, full, meta) {
-                        return '<img src="user_bank/' + data + '" style="max-width:100px; max-height:100px;" />';
+                        return '<img src="bank_document/' + data + '" style="max-width:100px; max-height:100px;" class="table-user-thumb"/>';
                     },
                     orderable: false,
                     searchable: false
                 },
+                {data:'account_number', name: 'account_number', orderable: true, searchable: true},
+                {data:'payment_method', name: 'payment_method', orderable: true, searchable: true},
+                {data:'upi', name: 'upi', orderable: true, searchable: true},
+                {data:'googlepay', name: 'googlepay', orderable: true, searchable: true},
+                {data:'phonepe', name: 'phonepe', orderable: true, searchable: true},
+                {data:'paytm', name: 'paytm', orderable: true, searchable: true},
                 {data:'customer.username', name: 'customer.username'},
                 {data:'customer.phone', name: 'customer.phone'},
                 {data:'account_holder_name', name: 'account_holder_name'},

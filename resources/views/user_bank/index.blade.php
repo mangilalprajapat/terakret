@@ -46,8 +46,13 @@
                         <table id="user_bank_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Account Number')}}</th>
                                     <th>{{ __('Document')}}</th>
+                                    <th>{{ __('Account Number')}}</th>
+                                    <th>{{ __('Paymet Method')}}</th>
+                                    <th>{{ __('UPI')}}</th>
+                                    <th>{{ __('Google Pay')}}</th>
+                                    <th>{{ __('PhonePe')}}</th>
+                                    <th>{{ __('Paytm')}}</th>
                                     <th>{{ __('Customer Name')}}</th>
                                     <th>{{ __('Customer Mobile')}}</th>
                                     <th>{{ __('Account Holder Name')}}</th>

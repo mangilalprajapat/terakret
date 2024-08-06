@@ -19,7 +19,7 @@ class UserBankController extends Controller
    }
    public function getUserBankList(Request $request)
    {
-      $data  = UserBank::with('customer')->get();
+      $data  = UserBank::with('customer')->where(['is_deleted' => false])->orderBy('created_at','desc')->get();
       return Datatables::of($data)
       ->addColumn('action', function($data){
          return '<div class="table-actions">

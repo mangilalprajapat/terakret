@@ -13,19 +13,11 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Password;
-use Laravel\Passport\TokenRepository;
+use Illuminate\Support\Facades\File;
 
 
 class AuthController extends Controller
 {
-
-    protected $tokenRepository;
-
-    public function __construct(TokenRepository $tokenRepository)
-    {
-        $this->tokenRepository = $tokenRepository;
-    }
-    
     public function register(Request $request)
     {
         $deviceType = request()->input('device_type', 'Android');
@@ -89,7 +81,6 @@ class AuthController extends Controller
             ]);
         }
     }
-
     public function login(Request $request)
     {
         // $accessToken = Auth::user()->createToken('authToken')->accessToken;
@@ -156,7 +147,6 @@ class AuthController extends Controller
             ]);
         }
     }
-
     public function socialLogin(Request $request){
         
         return response()->json([
@@ -165,7 +155,6 @@ class AuthController extends Controller
             // 'data' => $customer
         ]);
     }
-    
     public function forgotPassword(Request $request){
         
         $validator = Validator::make($request->all(), [
@@ -183,7 +172,6 @@ class AuthController extends Controller
             ? response()->json(['message' => 'Password reset link sent.','status' => 200])
             : response()->json(['message' => 'Unable to send reset link.', 'status' => 400]);
     }
-    
     public function profile(Request $request)
     {
         $customer = Auth::user();
@@ -233,7 +221,6 @@ class AuthController extends Controller
         try {
             $customerProfile = Auth::user();
             if(!empty($customerProfile)){
-                // echo "<pre>";print_r($customerProfile);die;
                 $validator = Validator::make($request->all(), [
                     'username'   => 'required|string|max:20',
                     'email' => [
@@ -267,7 +254,7 @@ class AuthController extends Controller
                             }
                         },
                     ],
-                    'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'profile_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                     'country'       => 'nullable',
                     'state'         => 'nullable',
                     'city'          => 'nullable',
@@ -280,19 +267,55 @@ class AuthController extends Controller
                         'status' => 400,
                     ]);
                 }
-                $customerProfile->dob = $request->input('dob');
-                if ($request->hasFile('profile_image')) {
-                    // Delete old image if exists
-                    if ($user->profile_image && Storage::exists($user->profile_image)) {
-                        Storage::delete($user->profile_image);
-                    }
-        
-                    // Store new image
-                    $imagePath = $request->file('profile_image')->store('profile_images', 'public');
-                    $customerProfile->profile_image = $imagePath;
+                if($request->input('username')){
+                    $customerProfile->username = $request->input('username');
                 }
-
-                // $customerProfile->save();
+                if($request->input('email')){
+                    $customerProfile->email = $request->input('email');
+                }
+                if($request->input('phone')){
+                    $customerProfile->phone = $request->input('phone');
+                }
+                if($request->input('gender')){
+                    $customerProfile->gender = $request->input('gender');
+                }
+                if($request->input('dob')){
+                    $customerProfile->dob = Carbon::parse($request->input('dob'))->format('Y-m-d');
+                }
+                if ($request->hasFile('profile_image')) {
+                    
+                    // Delete old image if exists
+                    $imageFilePath = public_path('profile_image/').$customerProfile->profile_image;
+                    if ($customerProfile->profile_image && $imageFilePath) {
+                        if(File::exists($imageFilePath)) {
+                            unlink($imageFilePath); //delete from storage
+                        }
+                    }                     
+                    // Get the file from the request
+                    $image = $request->file('profile_image');
+                    
+                    // Generate a file name
+                    $ProfileImgName = time().'.'.$image->extension();
+                    
+                    // Move the image to the storage directory
+                    $image->move(public_path('profile_image'), $ProfileImgName);
+                                        
+                    // Store new image
+                    $customerProfile->profile_image = $ProfileImgName;
+                }
+                if($request->input('country')){
+                    $customerProfile->country = $request->input('country');
+                }
+                if($request->input('state')){
+                    $customerProfile->state = $request->input('state');
+                }
+                if($request->input('city')){
+                    $customerProfile->city = $request->input('city');
+                }
+                if($request->input('pincode')){
+                    $customerProfile->pincode = $request->input('pincode');
+                }
+                $customerProfile->save();
                 return response([
                     'status'  => 200,
                     'message' => 'Profile updated successfully',
