@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 02, 2024 at 06:18 PM
+-- Generation Time: Aug 07, 2024 at 08:39 AM
 -- Server version: 10.6.17-MariaDB-1:10.6.17+maria~ubu2004
 -- PHP Version: 7.2.34-45+ubuntu20.04.1+deb.sury.org+1
 
@@ -48391,7 +48391,7 @@ CREATE TABLE `customers` (
   `profile_image` varchar(255) DEFAULT NULL,
   `status` enum('Active','Inactive','Rejected') NOT NULL DEFAULT 'Inactive',
   `is_blocked` tinyint(1) DEFAULT 0 COMMENT 'user blocked by admin',
-  `device_type` varchar(255) DEFAULT NULL,
+  `device_type` enum('Web','Android','IOS') NOT NULL DEFAULT 'Web',
   `device_token` varchar(255) DEFAULT NULL,
   `api_token` mediumtext DEFAULT NULL,
   `remember_token` varchar(255) DEFAULT NULL,
@@ -48410,12 +48410,25 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `username`, `email`, `phone_code`, `phone`, `wallet_amount`, `coupon_points`, `is_veryfied`, `customer_type`, `language`, `is_deleted`, `gender`, `dob`, `country`, `state`, `city`, `pincode`, `referal_code`, `profile_image`, `status`, `is_blocked`, `device_type`, `device_token`, `api_token`, `remember_token`, `otp`, `otp_expire_at`, `is_logging`, `is_first_login`, `password`, `created_at`, `update_at`, `last_login_at`) VALUES
-(1, 'Mangi Lal', 'org.mlp@gmail.com', '+91', '9587142939', '101.00', 22, 0, 1, 'en', 0, 'M', NULL, NULL, NULL, NULL, NULL, 'dsasd', NULL, 'Active', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$w03DZ/fJAFtsMxwo55wPz.ntrNYdY1yv1JityQmlv68K9xwJE16XK', '2024-07-19 11:41:35', '2024-08-02 11:30:22', NULL),
-(2, 'Pooja', 'pooja@gmail.com', NULL, '2345678902', '0.00', 0, 0, 1, 'en', 0, 'F', '1996-07-30', 101, 33, 3316, 302017, 'HEZ7VVOX', NULL, 'Active', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$ytQSDw2wVJ0GnsKkZDaZeeTCT0rsYdwijbz2H/4N.OT1W54rY8Zv2', '2024-08-01 18:57:49', '2024-08-02 12:10:02', NULL),
-(3, 'Ashok', 'aashobk@gmail.com', NULL, '9587127234', '0.00', 0, 0, 1, 'en', 0, 'M', '2013-01-30', 101, 33, 3378, 331302, 'MNGSDBFaUR', NULL, 'Active', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$kUCr4Ctp.NzWzIingmP4v.xqCsRUkHZfZytDZVpEljkzbXrMT2Qfm', '2024-08-01 19:01:48', '2024-08-02 11:29:04', NULL),
-(4, 'Arun Kurmar', 'info@terakret.com', '+91', '9587142939', '0.00', 0, 0, 1, 'en', 0, 'M', '2024-08-01', 101, 3, 301, 302017, 'dUrk1zYl87', NULL, 'Active', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$R1n2tVzjlMdp/HJiV6pKUu5HWdPfagOXOYoaNJ.9NSZcUpwz63qd2', '2024-08-02 10:01:41', '2024-08-02 11:18:32', NULL),
-(5, 'Camilal', 'org.mlp@gmail.com', '+91', '9587142938', '0.00', 0, 0, 1, 'en', 0, 'M', NULL, 101, NULL, NULL, NULL, 'v1s2ucuEZm', NULL, 'Active', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$TYCXU0WRxu0N6T0R1cFNZ.fUHSSIfv72KKUHRfyQkuD4L6Rh3ZsFm', '2024-08-02 10:04:36', '2024-08-02 11:18:32', NULL),
-(6, 'mangi Lal', 'mangl@gmail.com', '+91', '8545434565', '0.00', 0, 0, 2, 'en', 0, 'M', '2024-08-16', 101, 3, 302, 331302, 'Ad1b7J853T', NULL, 'Active', 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$r2dfx1aXjDSiAubN.wAAguRVvOswuQqm/5t94OytRshjNB67etZie', '2024-08-02 11:16:42', '2024-08-02 11:17:34', NULL);
+(1, 'Mangi Lal', 'org1.mlp@gmail.com', '+91', '9587142922', '101.00', 22, 0, 1, 'en', 0, 'M', NULL, NULL, NULL, NULL, NULL, 'dsasd', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$w03DZ/fJAFtsMxwo55wPz.ntrNYdY1yv1JityQmlv68K9xwJE16XK', '2024-07-19 11:41:35', '2024-08-05 10:37:19', '2024-08-09 09:38:40'),
+(2, 'Pooja', 'pooja@gmail.com', NULL, '2345678902', '0.00', 0, 0, 1, 'en', 0, 'F', '1996-07-30', 101, 33, 3316, 302017, 'HEZ7VVOX', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$ytQSDw2wVJ0GnsKkZDaZeeTCT0rsYdwijbz2H/4N.OT1W54rY8Zv2', '2024-08-01 18:57:49', '2024-08-02 12:10:02', NULL),
+(3, 'Ashok', 'aashobk@gmail.com', NULL, '9587127234', '0.00', 0, 0, 1, 'en', 0, 'M', '2013-01-30', 101, 33, 3378, 331302, 'MNGSDBFaUR', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$kUCr4Ctp.NzWzIingmP4v.xqCsRUkHZfZytDZVpEljkzbXrMT2Qfm', '2024-08-01 19:01:48', '2024-08-02 11:29:04', NULL),
+(4, 'Arun Kurmar', 'info@terakret.com', '+91', '9587142939', '0.00', 0, 0, 1, 'en', 0, 'M', '2024-08-01', 101, 3, 301, 302017, 'dUrk1zYl87', NULL, 'Active', 0, 'Web', NULL, 'CzPYmNaVH7HDdiLSDLKVywQGRzVGmJFv261k1mfrxEHkrR0GQoHKBSnP7JYw', NULL, NULL, NULL, 1, 'done', '$2y$10$xI.44J.oKFhjmJCggOxg5eGsNJghErH7hQu33TS/lO7XGVFgOx2K2', '2024-08-02 10:01:41', '2024-08-05 10:40:04', '2024-08-05 10:40:04'),
+(5, 'Camilal', 'org.mlp@gmail.com', '+91', '9587142938', '0.00', 0, 0, 1, 'en', 0, 'M', NULL, 101, NULL, NULL, NULL, 'v1s2ucuEZm', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$TYCXU0WRxu0N6T0R1cFNZ.fUHSSIfv72KKUHRfyQkuD4L6Rh3ZsFm', '2024-08-02 10:04:36', '2024-08-02 15:13:36', NULL),
+(6, 'mangi Lal', 'mangl@gmail.com', '+91', '8545434565', '0.00', 0, 0, 2, 'en', 0, 'M', '2024-08-16', 101, 3, 302, 331302, 'Ad1b7J853T', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$r2dfx1aXjDSiAubN.wAAguRVvOswuQqm/5t94OytRshjNB67etZie', '2024-08-02 11:16:42', '2024-08-02 11:17:34', NULL),
+(7, 'TestUser', 'orgs.mlp@gmail.com', '+91', '9587142937', '0.00', 0, 0, 1, 'en', 0, 'F', NULL, NULL, NULL, NULL, NULL, 'BhrYqjgOx1', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$jYs5orxksAr7HJZGDNO7KuIh9rV3kd/VbGQgBlc3xjv5hQdS9DbVS', '2024-08-02 16:18:28', '2024-08-03 03:38:55', NULL),
+(8, 'Johan', 'ghjk.mlp@gmail.com', '+91', '9874532458', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, 'dBn4frzPH0', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$0m9cc9.I.WID2Bynx1RWEek7lJOTMykgurfVboUleQAm0iuZhwWim', '2024-08-02 16:22:13', '2024-08-02 16:22:36', NULL),
+(10, 'Johan', 'ghjk.mlp@gmail.com', '+91', '9874532458', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, 'sNRGqeerKf', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$0imG.miANddQnuDk7v3lrOm0zNUtJYA060eYlOSc5mE/h4AivR.Wu', '2024-08-02 16:23:57', '2024-08-02 16:26:01', NULL),
+(11, 'Johan', 'ghjk.mlp@gmail.com', '+91', '9874532458', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, 'P0y1iAc0Cx', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$1Q93hunSU7n/FC/WZYr9KOHU6RGR797vO5Y.F150JDmBuNDUlf7ly', '2024-08-02 16:26:06', '2024-08-02 16:28:28', NULL),
+(12, 'Johan', 'ghjk.mlp@gmail.com', '+91', '9874532458', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, '1qXx1lIet4', NULL, 'Active', 0, 'Web', NULL, NULL, NULL, NULL, NULL, 0, 'pending', '$2y$10$SxrBYIGsmEmcXxOPGpFpqu3iGYdd9GlTE9OxDPEJOpHsS2J3El6y.', '2024-08-02 16:28:33', '2024-08-02 17:00:07', NULL),
+(13, 'Johan', 'ghjk.mlp@gmail.com', '+91', '9874532458', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, 'QLJGTJEetW', NULL, 'Active', 0, 'Web', NULL, 'XV3x0QKUKvKeNN6qq4Q1As4BqvsMjgkCFs7N1HtSxVqp3nwDVAWPrJX2LUAl', NULL, NULL, NULL, 0, 'pending', '$2y$10$LtUS.I739w4XfYptxy.OUuYFAPSnZffDf6Ce3iobmsfwT4GlAPLje', '2024-08-02 17:00:34', '2024-08-02 17:13:53', NULL),
+(14, 'Johan', 'ghjk.mlp@gmail.com', '+91', '9874532458', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, 'MJ6tnMgQdg', NULL, 'Active', 0, 'Android', NULL, '4EQUSh9qVkwnmGkwtQmbySPSquMTupYsnvCQR5cX3PtVLgdrjeDq1nTUVxHW', NULL, NULL, NULL, 0, 'pending', '$2y$10$o0Hd7Dw.iNwu3mTGcNerzejEPEcvhFgPy7zOjt9mYoNGL8ek6hg8a', '2024-08-02 17:14:00', '2024-08-02 17:14:15', NULL),
+(15, 'Johan', 'ghjk.mlp@gmail.com', '+91', '9874532458', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, '6kKzPiL4Qw', NULL, 'Active', 0, 'Android', NULL, 'FtrqJ7HQUjn2KIG4A4KzM99i1Kxqnt3SxCag4pneI5zt1PQy3kMu7UG9fiFA', NULL, NULL, NULL, 0, 'pending', '$2y$10$uI0uFcKs/3ANCWw6dwKRLeuEKbHCXWSHkDnDG7YdU269/i2SjKR1C', '2024-08-02 17:14:19', '2024-08-02 17:14:34', NULL),
+(16, 'Ram', 'ram.mlp@gmail.com', '+91', '9874532458', '0.00', 33, 0, 1, 'en', 0, 'M', '1996-07-30', 101, 33, 3378, 302017, 'g0dqoYb4k4', '1722829324.jpg', 'Active', 0, 'IOS', NULL, 'b92mUuTOyJTCn8KDXifanHLZJl2V1PT6fQYShlzYxeeDsJpiOEctrlLBRKoW', NULL, NULL, NULL, 1, 'done', '$2y$10$4MpNbW9Lu0NaX/TViQVxq.GaUEvdwYatV.WOncnE2pXAzc0AqPkMS', '2024-08-02 17:14:37', '2024-08-05 11:40:04', '2024-08-05 11:37:34'),
+(17, 'ningth', 'fon.mlp@gmail.com', '+91', '9999999999', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, 'guOn2O5Ems', NULL, 'Active', 0, 'Android', NULL, 'YSkMiWwrt65fqaG2lHsyfuIo2yFyXyaZltUnvhTDkknsElAXB2wTWv9D8bUj', NULL, NULL, NULL, 0, 'pending', '$2y$10$GWa8ZhCLZSoQXkgRYMONgex0TSIkery5Pcb78SyCml6IY.Fb29Sju', '2024-08-02 18:30:09', '2024-08-03 03:47:02', NULL),
+(18, 'ningth', 'fon.mlp@gmail.com', '+91', '9999999999', '0.00', 0, 0, 1, 'en', 1, 'F', NULL, NULL, NULL, NULL, NULL, 'MKaKxfm3eF', NULL, 'Active', 0, 'Android', NULL, 'dBV6y5xSUUpeickLT27RvipsveyeHcFarKzE8JVwaewpKGjHSSCdjYsJ9aLy', NULL, NULL, NULL, 0, 'pending', '$2y$10$jokqZULuiInhClAPYyYotuy5eB3yXHnM/z2hwVpIh0Q0QSEVx3yb.', '2024-08-02 18:37:42', '2024-08-03 03:50:09', NULL),
+(19, 'Mohan', 'mohan@gmail.com', '+91', '8888888888', '0.00', 0, 0, 1, 'en', 0, 'M', '1996-07-30', 101, 33, 3378, 302017, 'uh2AUq9ZN8', '1722828936.jpg', 'Active', 0, 'Android', NULL, 'BYMDYHQWVhUdFH6EEd8q6FjJGBt8qry4LYsLtaK5eXST9wAgS9mWKCQnYVnw', NULL, NULL, NULL, 1, 'done', '$2y$10$zofxPqW68Q2tg7AcvJqQ/ugxkD0G6tlI95py5rMIETrCmY49t3aXC', '2024-08-03 04:12:55', '2024-08-05 03:35:36', '2024-08-04 19:06:40'),
+(20, 'Mohan', 'rohaon@gmail.com', '+91', '5555555555', '0.00', 0, 0, 1, 'en', 0, 'M', '1996-07-30', 101, 33, 3378, 302017, 'kADhvd1STm', '1722829090.jpg', 'Active', 0, 'Web', NULL, 'DDSzk0L57RKfZOocfjyKW3qhPxNTwt3VG2nSQSZxgnsIrZ0CvCTZLaGqCtxI', NULL, NULL, NULL, 1, 'done', '$2y$10$WLl9jocVRnm.hBRA/9jHAuXtAoxVuNoraqH0iF3A0nyxkwhrpMzOW', '2024-08-04 19:20:06', '2024-08-05 03:38:10', '2024-08-05 03:37:26');
 
 -- --------------------------------------------------------
 
@@ -48534,31 +48547,6 @@ CREATE TABLE `oauth_access_tokens` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `oauth_access_tokens`
---
-
-INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
-('021ee2b812378899fed597d0f44f54657ca342cf1f0180da787fd07d6ff01be0edd18b985d5caef3', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:02:29', '2024-07-29 07:02:29', '2025-07-29 12:32:29'),
-('0dc39ccfacf8a351c5ff374b11444ae41cfb0d3b77cc57410f1b80511a4b0b37b175c378df6b3889', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:16', '2024-07-29 07:03:16', '2025-07-29 12:33:16'),
-('0ead131d0db9871e2700a7f5059942295e470637d1050624be2b794820f333f90b4702f5d6223d17', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:02:41', '2024-07-29 07:02:41', '2025-07-29 12:32:41'),
-('1f92c4f7db4939eb31dc04e464010f9221215f1a09583c89ddf3a8658d6ea8a752bc9f15df0123d4', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:05', '2024-07-29 07:03:05', '2025-07-29 12:33:05'),
-('24e46a80bae6462b13c0f727e80ad31f502d70a68249e7de505c2c3df611086c01ec22b80dadd364', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:02:43', '2024-07-29 07:02:43', '2025-07-29 12:32:43'),
-('48cc4ee6f87a00e13a5b45acb7e0631a0786815d27834c2933c2ba8d760008bcfe2c529c5f0572ff', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:18', '2024-07-29 07:03:18', '2025-07-29 12:33:18'),
-('65a40ed84052c25becc1de932f4bcc802cf7fca8109f0c4086afdd15769fef299a209dfd9cc2bbcc', 1, 1, 'authToken', '[]', 0, '2023-05-07 03:42:30', '2023-05-07 03:42:30', '2024-05-07 09:12:30'),
-('70abc496e4b6506bc0b184232d07202cc1adaa5d5ac9cfb2e6cba072c7db72520c8ba9befcb917a6', 1, 1, 'authToken', '[]', 0, '2023-05-07 03:51:35', '2023-05-07 03:51:35', '2024-05-07 09:21:35'),
-('720e65d2e19cf4471459fbefa2b7ecb5a61d367ab3bb56390ed75f7da8e92f9af13e8747f6f7ad03', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:19', '2024-07-29 07:03:19', '2025-07-29 12:33:19'),
-('7505f1037b3feb055ed1416e0a55773d249b8a527b339475c1e5db0736c8458b69538b6228f60a67', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:02', '2024-07-29 07:03:02', '2025-07-29 12:33:02'),
-('7aa44daa7c1cf354cd14d7d03b3d82cd5868743e1bec7fadc9d4b8fa1a2d6a456f43e3943340ffa2', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:02:38', '2024-07-29 07:02:38', '2025-07-29 12:32:38'),
-('88d1c280ac784e22d9443dc7de1b992d4b78825aa0c2d4956229bd0001954d9eaa764811a04364e3', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:00', '2024-07-29 07:03:00', '2025-07-29 12:33:00'),
-('8e646e4875f7249606b8e72eb90eca8b6fb1b9c08b79fa7df44d20a8fa80e13565c4ca03189e32e9', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:13', '2024-07-29 07:03:13', '2025-07-29 12:33:13'),
-('a2ba6c4cdea6459a9e88b0e134f8801ed2be941c9c8edc4fa0d1347f1cf256156bf674fc5e8503b0', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:06', '2024-07-29 07:03:06', '2025-07-29 12:33:06'),
-('a5ec0b1f6f0e9487f0ad56985d6595ca1fb6323ad909dad1ded9109f89919dd8546711bf3b2da622', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:02:55', '2024-07-29 07:02:55', '2025-07-29 12:32:55'),
-('b5dfe3006c51055c815a05428d341b41cc7e16494e63071deed77196ae240b8157a7a8f57ee07c7f', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:03', '2024-07-29 07:03:03', '2025-07-29 12:33:03'),
-('d1d488870c09c36f85abc3bf8d47bafa34cea25bac7b25e14bac8d56d7aa1f04aebe785aa634ae20', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:15', '2024-07-29 07:03:15', '2025-07-29 12:33:15'),
-('da3e90e9b4f720c8952fd911f23f357151fc502599c22f221ef612e5555363b4f95e9ba8621665ec', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:02:47', '2024-07-29 07:02:47', '2025-07-29 12:32:47'),
-('fc9433014ba64f56134ed89ce90557249fdf7bd054ca5fc14ae5c321e711488cbf3abd636652df8d', 1, 1, 'authToken', '[]', 0, '2024-07-29 07:03:08', '2024-07-29 07:03:08', '2025-07-29 12:33:08');
 
 -- --------------------------------------------------------
 
@@ -50985,7 +50973,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'info@terakret.com', NULL, '$2a$04$nEp.F6oYBieIwjh9PXS6muL9J5W6/hr6KM41wKBlZQuGxrkrddJ3S', 'ZP39eW8cazNdYquXKN4WgJI2qnHURDhgBTMZcvu8c0F2J0VtbaHfDBzALt5O', NULL, '2023-05-07 04:54:54'),
+(1, 'Super Admin', 'info@terakret.com', NULL, '$2a$04$nEp.F6oYBieIwjh9PXS6muL9J5W6/hr6KM41wKBlZQuGxrkrddJ3S', '2zRXfHYhSQRiOO4Aha6nP5SP2SGpRlbklyE6371I3iJIqAv6jPQviGJaOwXB', NULL, '2023-05-07 04:54:54'),
 (2, 'Project Manager', 'pm@test.com', NULL, '$2y$10$rm0yp.fuqPZevIkxlActtuBpMuTHLGwPRYFaNlA5TToZZqx.i7Tra', NULL, '2020-03-12 12:48:59', '2020-03-12 12:48:59'),
 (3, 'Sales Manager', 'sm@test.com', NULL, '$2y$10$40lQm5lnWgtElBwnko7ASuUr.Obu2CI.hPecZ8ZciGsYKkXw2Kf3.', NULL, '2020-03-12 12:50:15', '2020-03-12 12:50:15'),
 (4, 'HR', 'hr@test.com', NULL, '$2y$10$sFgFRrOZS4mzhRlAHbDIie.Kz.G3YSIYynnmcljjxVzyl0gkMQT6a', NULL, '2020-03-12 12:55:25', '2020-03-12 12:55:25');
@@ -51021,7 +51009,12 @@ CREATE TABLE `user_bank` (
 --
 
 INSERT INTO `user_bank` (`bank_id`, `user_id`, `payment_method`, `upi`, `googlepay`, `phonepe`, `paytm`, `account_holder_name`, `bank_name`, `account_type`, `account_number`, `ifsc_code`, `document`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(2, 1, 'Paytm', '5678765432', 'gfhfd@acx', '4567543eds@sfds', '654324567@dgdfg', 'iouygh', 'dfcgh', 'Current', '43456789', 'ytre654', '', 'A', 1, '2024-07-27 09:27:20', '2024-07-31 18:22:43');
+(2, 1, 'Google Pay', '5678765432', 'gfhfd@acx', '4567543eds@sfds', '654324567@dgdfg', 'iouygh', 'dfcgh', 'Current', '43456789', 'ytre654', '', 'A', 1, '2024-07-27 09:27:20', '2024-08-02 15:27:06'),
+(3, 16, 'Bank Account', NULL, NULL, NULL, NULL, 'Ram RAm', 'Axis Bank', 'Current', '61146926135', 'UPDATEAXIS53434', '1722841042.png', 'A', 0, '2024-08-05 06:57:22', '2024-08-05 10:32:56'),
+(4, 16, 'UPI', '987678876', NULL, NULL, NULL, 'Arun Kumar ji', 'Axis Bank', 'Current', '61146926135', 'UPDATEAXIS53434', '1722857881.png', 'A', 0, '2024-08-05 07:17:02', '2024-08-05 11:38:01'),
+(5, 4, 'Bank Account', NULL, NULL, NULL, NULL, 'Arun Kumar', 'SBI Main', 'Current', '611469261300', 'UPDATESBI5343400', '1722855550.png', 'A', 0, '2024-08-05 10:45:01', '2024-08-05 10:59:10'),
+(6, 4, 'UPI', '987678876', NULL, NULL, NULL, 'Arun Kumar ji', NULL, NULL, NULL, NULL, '1722855850.png', 'A', 1, '2024-08-05 11:00:28', '2024-08-05 11:22:14'),
+(7, 4, 'Paytm', NULL, NULL, NULL, '547865435', 'Arun Paytm', NULL, NULL, NULL, NULL, '1722856395.png', 'A', 1, '2024-08-05 11:13:15', '2024-08-05 11:14:30');
 
 -- --------------------------------------------------------
 
@@ -51099,9 +51092,9 @@ CREATE TABLE `withdrawal` (
 --
 
 INSERT INTO `withdrawal` (`withdrawal_id`, `user_id`, `bank_id`, `redeem_points`, `reddeem_amounts`, `transaction_id`, `document`, `description`, `status`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 100, 25.00, '4535345', NULL, NULL, 'S', 0, '2024-07-27 11:01:18', '2024-07-27 05:01:18'),
+(1, 1, 2, 100, 25.00, '4535345', NULL, NULL, 'P', 0, '2024-07-27 11:01:18', '2024-07-27 05:01:18'),
 (2, 1, 2, 23, 23.00, '98765432', NULL, 'test', 'S', 1, '2024-07-27 05:42:25', '2024-07-27 05:42:25'),
-(3, 1, 2, 33, 30.00, '4567876', NULL, NULL, 'S', 1, '2024-07-27 05:42:25', '2024-07-27 05:42:25'),
+(3, 16, 4, 33, 30.00, NULL, NULL, 'wxedtcrfyughijok', 'C', 0, '2024-07-27 05:42:25', '2024-07-27 05:42:25'),
 (4, 1, 2, 22, 23.00, NULL, NULL, 'gsdfssfds', 'P', 1, '2024-07-27 05:42:56', '2024-07-27 05:42:56'),
 (5, 1, 2, 22, 23.00, '56464564', NULL, NULL, 'S', 1, '2024-07-31 05:42:56', '2024-07-27 05:42:56');
 
@@ -51151,10 +51144,10 @@ ALTER TABLE `coupon`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`),
-  ADD UNIQUE KEY `email` (`email`,`phone`),
   ADD KEY `country` (`country`),
   ADD KEY `state` (`state`),
-  ADD KEY `city` (`city`);
+  ADD KEY `city` (`city`),
+  ADD KEY `customer_type` (`customer_type`);
 
 --
 -- Indexes for table `customer_type`
@@ -51344,7 +51337,7 @@ ALTER TABLE `coupon`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `customer_type`
@@ -51416,7 +51409,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_bank`
 --
 ALTER TABLE `user_bank`
-  MODIFY `bank_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `bank_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_coupons`
@@ -51446,7 +51439,8 @@ ALTER TABLE `withdrawal`
 ALTER TABLE `customers`
   ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`country`) REFERENCES `countries` (`id`),
   ADD CONSTRAINT `customers_ibfk_2` FOREIGN KEY (`state`) REFERENCES `states` (`id`),
-  ADD CONSTRAINT `customers_ibfk_3` FOREIGN KEY (`city`) REFERENCES `cities` (`id`);
+  ADD CONSTRAINT `customers_ibfk_3` FOREIGN KEY (`city`) REFERENCES `cities` (`id`),
+  ADD CONSTRAINT `customers_ibfk_4` FOREIGN KEY (`customer_type`) REFERENCES `customer_type` (`customer_type_id`);
 
 --
 -- Constraints for table `model_has_permissions`
